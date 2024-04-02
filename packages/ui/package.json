@@ -4,7 +4,9 @@
   "private": true,
   "exports": {
     "./styles": "./styles.css",
-    "./button": "./src/button.tsx"
+    "./button": "./src/button.tsx",
+    "./inputBox": "./src/inputBox.tsx",
+    "./box": "./src/box.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
