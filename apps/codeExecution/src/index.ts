@@ -3,7 +3,6 @@ import fs from "fs"
 import path from "path"
 import {exec} from "child_process"
 import cors from "cors"
-import {PORT} from "@repo/common/src";
 
 const app = express();
 
@@ -56,6 +55,6 @@ app.post("/execute", async (req, res) => {
 
 })
 
-app.listen(PORT, () => {
+app.listen(4000, () => {
     console.log("Server started")
 })

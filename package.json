@@ -2,8 +2,8 @@
   "name": "DSA_Practice",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
+    "build": "dotenv -- turbo build",
+    "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -23,5 +23,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@next-auth/prisma-adapter": "^0.4.4-canary.81",
+    "dotenv-cli": "^7.4.1"
+  }
 }

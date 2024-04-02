@@ -12,7 +12,8 @@
     "next.config.js",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "next-auth-extensions.d.ts"
   ],
   "exclude": ["node_modules"]
 }
