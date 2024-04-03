@@ -1,11 +1,11 @@
 "use client"
 
 import {useState} from "react";
-import {ADMIN_PASSWORD, ADMIN_USERNAME} from "@repo/common/src";
 import {useRouter} from "next/navigation";
 import Button from "@repo/ui/button"
 import InputBox from "@repo/ui/inputBox";
 import Box from "@repo/ui/box"
+import axios from "axios";
 
 const Page = () => {
     const [username, setUsername] = useState("");
@@ -13,20 +13,25 @@ const Page = () => {
 
     const router = useRouter();
 
-    const handleLogin = () => {
-        if(username == "akshatarora130"){
-            if(password == "123456"){
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post("/api/admin/login", {
+                username: username,
+                password: password
+            })
+            if(response.status == 200){
+                alert(response.data.message);
+                localStorage.setItem("token", response.data.token);
+                setUsername("");
+                setPassword("");
                 router.push("/Admin/addQuestion")
             }
             else{
-                setPassword("");
-                alert("Wrong Password")
+                alert(response.data.message)
             }
         }
-        else {
-            setUsername("");
-            setPassword("");
-            alert("Enter valid username")
+        catch (error){
+            console.error(error)
         }
     }
 
