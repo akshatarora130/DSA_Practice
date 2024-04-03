@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken"
 export async function POST(request: Request) {
     try {
         const data = await request.json();
-        console.log(ADMIN_USERNAME)
         if(data.username == ADMIN_USERNAME){
             if(data.password == ADMIN_PASSWORD){
                 const username = data.username

@@ -33,22 +33,34 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model BoilerPlate {
+model DriverCode {
   id          String     @id @default(cuid())
   language    String
-  starterCode String
+  code        String
+  Questions   Questions? @relation(fields: [questionsId], references: [id])
+  questionsId Int?
+}
+
+model UserCode {
+  id          String     @id @default(cuid())
+  language    String
+  code        String
   Questions   Questions? @relation(fields: [questionsId], references: [id])
   questionsId Int?
 }
 
 model Questions {
-  id          Int           @id @default(autoincrement())
-  name        String
-  tag         String
-  description String
-  topics      String[]
-  boilerPlate BoilerPlate[]
-  Submissions Submissions[]
+  id             Int           @id @default(autoincrement())
+  name           String
+  tag            String
+  description    String
+  topics         String[]
+  arguments      Json
+  testcases      Json[]
+  driverArgument String
+  driverCode     DriverCode[]
+  userCode       UserCode[]
+  Submissions    Submissions[]
 }
 
 model Submissions {
