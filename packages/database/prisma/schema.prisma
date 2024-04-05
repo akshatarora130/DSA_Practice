@@ -52,15 +52,16 @@ model UserCode {
 model Questions {
   id             Int           @id @default(autoincrement())
   name           String
-  tag            String
+  difficulty     String
   description    String
   topics         String[]
   arguments      Json
-  testcases      Json[]
-  driverArgument String
+  testcases      Json[]        @default([])
+  driverArgument String?
   driverCode     DriverCode[]
   userCode       UserCode[]
   Submissions    Submissions[]
+  Publishable    Boolean       @default(false)
 }
 
 model Submissions {

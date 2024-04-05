@@ -1,18 +1,25 @@
 import { NextResponse } from 'next/server';
 import {prisma} from "@repo/database";
+import jwt from "jsonwebtoken";
+import {JWT_SECRET} from "@repo/common/src";
 
 export async function POST(request: Request) {
     try {
         const data = await request.json();
+        jwt.verify(data.token, JWT_SECRET || "", (err: any) => {
+            if(err){
+                return NextResponse.json({
+                    message: "Login to add new Problem"
+                }, {status: 401})
+            }
+        })
         const question = await prisma.questions.create({
             data: {
                 name: data.name,
-                tag: data.tag,
+                difficulty: data.difficulty,
                 description: data.description,
                 topics: data.topics,
                 arguments: data.arguments,
-                testcases: data.testcases,
-                driverArgument: "",
             }
         })
         if(!question){
@@ -25,7 +32,7 @@ export async function POST(request: Request) {
             question: question
         }, {status: 200})
     } catch (error) {
-        console.error('Error during Login:', error);
+        console.error('Error during adding problem:', error);
         return NextResponse.json(
             { error: error },
             { status: 500 }

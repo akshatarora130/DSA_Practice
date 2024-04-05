@@ -50,12 +50,13 @@ CREATE TABLE "UserCode" (
 CREATE TABLE "Questions" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "tag" TEXT NOT NULL,
+    "difficulty" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "topics" TEXT[],
     "arguments" JSONB NOT NULL,
-    "testcases" JSONB[],
-    "driverArgument" TEXT NOT NULL,
+    "testcases" JSONB[] DEFAULT ARRAY[]::JSONB[],
+    "driverArgument" TEXT,
+    "Publishable" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Questions_pkey" PRIMARY KEY ("id")
 );

@@ -24,7 +24,7 @@ const Page = () => {
                 localStorage.setItem("token", response.data.token);
                 setUsername("");
                 setPassword("");
-                router.push("/Admin/addQuestion")
+                router.push("/Admin/allQuestions")
             }
             else{
                 alert(response.data.message)
