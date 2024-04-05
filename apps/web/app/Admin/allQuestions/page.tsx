@@ -64,6 +64,7 @@ const Page = () => {
                 handleLogout={handleLogout}
             />
             <div className="container mx-auto px-4 py-8">
+                <center><h1 className="text-4xl font-extrabold tracking-wide mb-4">All Questions</h1></center>
                 <table className="w-full table-auto border-collapse border border-gray-800">
                     <thead>
                     <tr className="bg-gray-800 text-gray-300">

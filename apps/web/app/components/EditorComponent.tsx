@@ -1,12 +1,12 @@
 import React from 'react';
 import Editor from '@monaco-editor/react';
 
-const EditorComponent = ({ selectedLanguage, size, driverCode, handleLanguageChange, handleSizeChange, handleDriverCodeChange, handleAddDriveCode, javaCode, cppCode }: any) => {
+const EditorComponent = ({ selectedLanguage, size, code, handleLanguageChange, handleSizeChange, handleCodeChange, handleAddCode, javaCode, cppCode, userOrDriver}: any) => {
     return (
         <div className="w-full lg:w-2/3 px-6 py-8">
             <div className="flex justify-between mb-6">
                 <div className="flex gap-2">
-                    <p className="text-lg font-bold mb-2">Driver code not added for:   </p>
+                    <p className="text-lg font-bold mb-2">{userOrDriver} code not added for:   </p>
                     <div className="flex flex-wrap gap-2">
                         {!javaCode && <span className="bg-white text-black px-2 py-1 rounded-lg h-auto">Java</span>}
                         {!cppCode && <span className="bg-white text-black px-2 py-1 rounded-lg">C++</span>}
@@ -47,19 +47,19 @@ const EditorComponent = ({ selectedLanguage, size, driverCode, handleLanguageCha
                     width="100%"
                     language={selectedLanguage}
                     theme="vs-dark"
-                    value={driverCode}
+                    value={code}
                     options={{
                         fontSize: size,
                     }}
-                    onChange={handleDriverCodeChange}
+                    onChange={handleCodeChange}
                 />
             </div>
             <div className="flex justify-end mt-4">
                 <button
-                    onClick={handleAddDriveCode}
+                    onClick={handleAddCode}
                     className="bg-white hover:bg-gray-300 text-black font-semibold py-1 px-4 rounded-lg transition duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                    Add DriverCode
+                    Add {userOrDriver} Code
                 </button>
             </div>
         </div>

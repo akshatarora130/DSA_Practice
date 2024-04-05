@@ -1,14 +1,17 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Header from '../../../components/Header';
-import EditorComponent from '../../../components/EditorComponent';
+import {usePathname, useRouter} from 'next/navigation';
+import Header from '../../../../components/Header';
+import EditorComponent from '../../../../components/EditorComponent';
 import axios from 'axios';
-import ProblemStatement from "../../../components/ProblemStatement";
+import ProblemStatement from "../../../../components/ProblemStatement";
 
 const Page = () => {
     const router = useRouter();
+    const pathname = usePathname();
+    const path = pathname.split('/');
+    const questionId = path[path.length - 1];
     const [question, setQuestion] = useState<any>(null);
     const [driverCode, setDriverCode] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('java');
@@ -21,7 +24,7 @@ const Page = () => {
         const fetchQuestion = async () => {
             try {
                 const response = await axios.post('/api/admin/fetchQuestion', {
-                    id: localStorage.getItem('questionId'),
+                    id: questionId,
                 });
                 setQuestion(response.data.question);
                 if(response.data.question.driverCode){
@@ -91,7 +94,7 @@ const Page = () => {
         const response = await axios.post("/api/admin/addQuestion/addDriverCode", {
             language: selectedLanguage,
             code: driverCode,
-            questionId: localStorage.getItem("questionId")
+            questionId: questionId
         })
         console.log(response);
         if(response.status == 200){
@@ -99,9 +102,10 @@ const Page = () => {
             if(response.data.driverCode.language == 'java'){
                 setJavaCode(true);
             }
-            if(response.data.driverCode.length == 'cpp'){
+            if(response.data.driverCode.language == 'cpp'){
                 setCppCode(true);
             }
+            router.push(`/Admin/editQuestion/${questionId}`)
         }
         alert(response.data.message);
     }
@@ -126,17 +130,19 @@ const Page = () => {
             <div className="flex flex-col lg:flex-row flex-grow justify-between">
                 <ProblemStatement
                     question={question}
+                    userOrDriver={"Driver"}
                 />
                 <EditorComponent
                     selectedLanguage={selectedLanguage}
                     size={size}
-                    driverCode={driverCode}
+                    code={driverCode}
                     handleLanguageChange={handleLanguageChange}
                     handleSizeChange={handleSizeChange}
                     handleDriverCodeChange={handleDriverCodeChange}
                     handleAddDriveCode={handleAddDriveCode}
                     javaCode={javaCode}
                     cppCode={cppCode}
+                    userOrDriver={"Driver"}
                 />
             </div>
         </div>
