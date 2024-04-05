@@ -84,25 +84,60 @@ const Page = () => {
         localStorage.removeItem('token');
     };
 
+    const handleDeleteTestcase = async (index: number) => {
+        const updatedTestcases = question?.testcases ? [...question.testcases] : [];
+        updatedTestcases.splice(index, 1);
+        const newQuestion = { ...question }; // Create a shallow copy
+        if (newQuestion) {
+            newQuestion.testcases = updatedTestcases;
+            // @ts-ignore
+            setQuestion(newQuestion);
+        }
+
+        // Make the API call to update the test cases
+        const response = await axios.post("/api/admin/addQuestion/addTestcase", {
+            id: questionId,
+            testcases: updatedTestcases
+        });
+    };
+
+
     const renderTestcases = () => {
-        return question?.testcases.map((t, index) => (
-            <div key={`testcase-${index}`}>
-                <h2>Testcase {index + 1}</h2>
-                <div>
-                    <h3>Input</h3>
-                    {Object.entries(t.input).map(([key, value]) => (
-                        <div key={key}>
-                            <span>{key}: </span>
-                            <span>{value}</span>
+        return (
+            <div className="bg-gray-900 rounded-md p-6 mb-4">
+                <h2 className="text-2xl font-semibold mb-4 text-white">Testcases</h2>
+                {question?.testcases.map((testcase, index) => (
+                    <div key={`testcase-${index}`} className="mb-6">
+                        <div className="bg-gray-800 rounded-md p-4 ">
+                            <div className="flex justify-between items-center mb-2">
+                                <h3 className="text-lg font-semibold text-white">Testcase {index + 1}</h3>
+                                <button
+                                    onClick={() => handleDeleteTestcase(index)}
+                                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md focus:outline-none"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                            <div className="flex-col text-white">
+                                <div>
+                                    <h4 className="text-xl font-semibold mb-2 ml-4">Input</h4>
+                                    {Object.entries(testcase.input).map(([key, value]) => (
+                                        <div key={key} className="flex items-center mb-2 ml-10">
+                                            <div className="w-20 text-lg">{key}:</div>
+                                            <div className="flex-1">{value}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div>
+                                    <h4 className="text-xl font-semibold mb-2 ml-4">Output</h4>
+                                    <div className="ml-10">{testcase.output}</div>
+                                </div>
+                            </div>
                         </div>
-                    ))}
-                </div>
-                <div>
-                    <h3>Output</h3>
-                    <div>{t.output}</div>
-                </div>
+                    </div>
+                ))}
             </div>
-        ));
+        );
     };
 
     const handleEditProblemStatement = () => {
