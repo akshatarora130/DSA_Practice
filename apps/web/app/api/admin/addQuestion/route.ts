@@ -15,6 +15,7 @@ export async function POST(request: Request) {
         })
         const question = await prisma.questions.create({
             data: {
+                questionNum: parseInt(data.questionNum),
                 name: data.name,
                 difficulty: data.difficulty,
                 description: data.description,

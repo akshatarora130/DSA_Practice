@@ -47,8 +47,19 @@ CREATE TABLE "UserCode" (
 );
 
 -- CreateTable
+CREATE TABLE "Solution" (
+    "id" TEXT NOT NULL,
+    "language" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "questionsId" INTEGER,
+
+    CONSTRAINT "Solution_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Questions" (
     "id" SERIAL NOT NULL,
+    "questionNum" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "difficulty" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -116,6 +127,9 @@ ALTER TABLE "DriverCode" ADD CONSTRAINT "DriverCode_questionsId_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "UserCode" ADD CONSTRAINT "UserCode_questionsId_fkey" FOREIGN KEY ("questionsId") REFERENCES "Questions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Solution" ADD CONSTRAINT "Solution_questionsId_fkey" FOREIGN KEY ("questionsId") REFERENCES "Questions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Submissions" ADD CONSTRAINT "Submissions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

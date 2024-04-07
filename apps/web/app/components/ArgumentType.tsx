@@ -36,8 +36,10 @@ const ArgumentType = ({ numOfArg, argArray, outputType, handleNumOfArgChange, ha
                                 <option value="">Select Type</option>
                                 <option value="Integer">Integer</option>
                                 <option value="Float">Float</option>
+                                <option value="Boolean">Boolean</option>
                                 <option value="Integer Array">Integer Array</option>
                                 <option value="String">String</option>
+                                <option value="Integer 2D dynamic Array">Integer 2D dynamic Array</option>
                                 {/* Add options here */}
                             </select>
                         </div>
@@ -54,8 +56,10 @@ const ArgumentType = ({ numOfArg, argArray, outputType, handleNumOfArgChange, ha
                     <option value="">Select output type</option>
                     <option value="Integer">Integer</option>
                     <option value="Float">Float</option>
+                    <option value="Boolean">Boolean</option>
                     <option value="Integer Array">Integer Array</option>
                     <option value="String">String</option>
+                    <option value="Integer 2D dynamic Array">Integer 2D dynamic Array</option>
                     {/* Add options here */}
                 </select>
             </div>

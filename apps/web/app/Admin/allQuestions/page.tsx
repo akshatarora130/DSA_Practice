@@ -1,15 +1,16 @@
 "use client"
 
-import Header from "../../components/Header";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Header from "../../components/Header";
 
 interface Question {
     id: number;
+    questionNum: number;
     name: string;
     difficulty: string;
-    publishable: boolean;
+    Publishable: boolean;
 }
 
 const Page = () => {
@@ -35,7 +36,8 @@ const Page = () => {
         const fetchQuestions = async () => {
             try {
                 const response = await axios.post("/api/admin/allQuestions", {});
-                setQuestions(response.data.questions);
+                const sortedQuestions = response.data.questions.sort((a:Question, b:Question) => a.questionNum - b.questionNum);
+                setQuestions(sortedQuestions);
             } catch (error) {
                 console.error("Error fetching questions:", error);
             }
@@ -71,16 +73,13 @@ const Page = () => {
                         <th className="px-4 py-2">Question ID</th>
                         <th className="px-4 py-2">Name</th>
                         <th className="px-4 py-2">Difficulty</th>
-                        <th className="px-4 py-2">Publishable</th>
+                        <th className="px-4 py-2">Published</th>
                     </tr>
                     </thead>
                     <tbody>
                     {questions.map((q, index) => (
-                        <tr
-                            key={index}
-                            className={index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}
-                        >
-                            <td className="border px-4 py-2 w-1/6">{q.id}</td>
+                        <tr key={index} className={index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}>
+                            <td className="border px-4 py-2 w-1/6">{q.questionNum}</td>
                             <td className="border px-4 py-2 w-3/6">
                                 <button
                                     className="text-blue-400 hover:text-blue-500 hover:underline"
@@ -90,7 +89,7 @@ const Page = () => {
                                 </button>
                             </td>
                             <td className="border px-4 py-2 w-1/6">{q.difficulty}</td>
-                            <td className="border px-4 py-2 w-1/6">{q.publishable ? 'Yes' : 'No'}</td>
+                            <td className="border px-4 py-2 w-1/6">{q.Publishable ? 'True' : 'False'}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -109,4 +108,3 @@ const Page = () => {
 };
 
 export default Page;
-

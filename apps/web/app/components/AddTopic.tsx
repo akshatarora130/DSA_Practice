@@ -22,6 +22,8 @@ const AddTopic = ({
                         <option value="Array">Array</option>
                         <option value="Matrix">Matrix</option>
                         <option value="HashTable">HashTable</option>
+                        <option value="Two Pointer">Two Pointer</option>
+                        <option value="Sorting">Sorting</option>
                         {/* Add more options as needed */}
                     </select>
                     <button

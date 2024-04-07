@@ -7,7 +7,8 @@ export async function POST(request: Request) {
         const questions = await prisma.questions.findMany({
             include: {
                 driverCode: true,
-                userCode: true
+                userCode: true,
+                solution: true
             }
         })
         if(!questions){

@@ -4,20 +4,19 @@ import {usePathname, useRouter} from 'next/navigation';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from "../../../../components/Header";
-import AddProblemStatement from "../../../../components/AddProblemStatement";
+import Editor from "@monaco-editor/react";
 
 const Page = () => {
     const router = useRouter();
     const pathname = usePathname();
     const path = pathname.split('/');
     const questionId = path[path.length - 1];
+    const lang = path[path.length-2];
 
-    const [question, setQuestion] = useState('')
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [difficulty, setDifficulty] = useState('');
+    const [question, setQuestion] = useState('');
     const [verified, setVerified] = useState(false)
-    const [questionNum, setQuestionNum] = useState(0);
+    const [code, setCode] = useState('');
+    const [id, setId] = useState('');
 
     useEffect(() => {
         const verify = async () => {
@@ -37,11 +36,12 @@ const Page = () => {
                 });
                 const fetchedQuestion = response.data.question;
                 setQuestion(fetchedQuestion);
-                setName(response.data.question.name);
-                setDescription(response.data.question.description);
-                setDifficulty(response.data.question.difficulty);
-                setQuestionNum(response.data.question.questionNum);
-
+                fetchedQuestion.solution.forEach((s: any) => {
+                    if (s.language === lang) {
+                        setCode(s.code)
+                        setId(s.id)
+                    };
+                });
             } catch (error) {
                 console.error('Error fetching question:', error);
             }
@@ -58,32 +58,18 @@ const Page = () => {
         localStorage.removeItem("token")
     }
 
-    const handleNameChange = (event: any) => {
-        setName(event.target.value);
-    };
-
-    const handleDescriptionChange = (event: any) => {
-        setDescription(event.target.value);
-    };
-
-    const handleDifficultyChange = (event: any) => {
-        setDifficulty(event.target.value);
-    };
-
-    const handleQuestionNumChange = (event: any) => {
-        setQuestionNum(event.target.value);
+    const handleCodeChange = (value:any, ev:any) => {
+        setCode(value);
     }
 
-    const handleEditProblemStatement = async () => {
-        const response = await axios.post("/api/admin/editQuestion/problemStatement", {
-            id: questionId,
-            questionNum: questionNum,
-            name: name,
-            description: description,
-            difficulty: difficulty
+    const handleEditSolution = async () => {
+        const response = await axios.post("/api/admin/editQuestion/solution", {
+            id: id,
+            code: code
         })
+
         if(response.status == 200){
-            router.push(`/Admin/editQuestion/${questionId}`)
+            router.push(`/Admin/editQuestion/${questionId}`);
         }
         alert(response.data.message);
     }
@@ -105,24 +91,28 @@ const Page = () => {
                 handleLogin={handleLogin}
                 handleLogout={handleLogout}
             />
-            <main className="flex flex-col items-center justify-center px-6 py-8 space-y-8">
-                <h1 className="text-4xl font-extrabold tracking-wide">Edit Problem Statement</h1>
-                <AddProblemStatement
-                    handleNameChange={handleNameChange}
-                    handleDescriptionChange={handleDescriptionChange}
-                    handleDifficultyChange={handleDifficultyChange}
-                    name={name}
-                    description={description}
-                    difficulty={difficulty}
-                    questionNum={questionNum}
-                    handleQuestionNumChange={handleQuestionNumChange}
-                />
+            <main className="flex flex-col px-6 py-8 space-y-8">
+                <h1 className="text-4xl font-extrabold tracking-wide">Edit {lang} Solution</h1>
+                <div className="editor-container bg-gray-900 rounded-lg shadow-xl overflow-hidden border-gray-300 border-2">
+                    <Editor
+                        className="w-full h-full"
+                        height="65vh"
+                        width="100%"
+                        language={lang}
+                        theme="vs-dark"
+                        value={code}
+                        options={{
+                            fontSize: 16,
+                        }}
+                        onChange={handleCodeChange}
+                    />
+                </div>
                 <div className="flex justify-end">
                     <button
-                        onClick={handleEditProblemStatement}
+                        onClick={handleEditSolution}
                         className="bg-white hover:bg-gray-300 text-black font-semibold py-3 px-8 rounded-xl transition duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
-                        Edit Problem
+                        Edit {lang} Solution
                     </button>
                 </div>
             </main>

@@ -3,7 +3,7 @@ const ProblemStatement = ({  question, userOrDriver}: any) => {
 
     return (
         <div className="w-full lg:w-1/3 px-6 py-8 lg:py-0">
-            <h1 className="text-2xl font-bold mb-4 mt-8">{` Add ${userOrDriver} code for the problem `}</h1>
+            <h1 className="text-2xl font-bold mb-4 mt-8">{` Add ${userOrDriver} for the problem `}</h1>
             <h1 className="text-xl font-bold mb-4 mt-8">{` ${question.id}. ${question.name}`}</h1>
             {description.map((des: string) => {
                 return <div className="mb-6">{des}</div>;

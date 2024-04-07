@@ -13,7 +13,7 @@ const Page = () => {
     const path = pathname.split('/');
     const questionId = path[path.length - 1];
     const [question, setQuestion] = useState<any>(null);
-    const [driverCode, setDriverCode] = useState('');
+    const [solution, setSolution] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('java');
     const [size, setSize] = useState(12);
     const [javaCode, setJavaCode] = useState(false);
@@ -28,11 +28,11 @@ const Page = () => {
                 });
                 setQuestion(response.data.question);
                 if(response.data.question.driverCode){
-                    response.data.question.driverCode.map((dc: any) => {
-                        if(dc.language == 'java'){
+                    response.data.question.solution.map((s: any) => {
+                        if(s.language == 'java'){
                             setJavaCode(true);
                         }
-                        if(dc.language == 'cpp'){
+                        if(s.language == 'cpp'){
                             setCppCode(true);
                         }
                     })
@@ -74,12 +74,12 @@ const Page = () => {
         setSize(Number(event.target.value));
     };
 
-    const handleDriverCodeChange = (value: string) => {
-        setDriverCode(value);
+    const handleSolutionChange = (value: string) => {
+        setSolution(value);
     };
 
-    const handleAddDriveCode = async () => {
-        if(driverCode == ''){
+    const handleAddSolution = async () => {
+        if(solution == ''){
             alert("Write driver code ");
             return;
         }
@@ -91,22 +91,16 @@ const Page = () => {
             alert("Driver code for c++ already added");
             return;
         }
-        const response = await axios.post("/api/admin/addQuestion/addDriverCode", {
+        const response = await axios.post("/api/admin/addQuestion/addSolution", {
             language: selectedLanguage,
-            code: driverCode,
+            code: solution,
             questionId: questionId
         })
-        console.log(response);
+
         if(response.status == 200){
-            setDriverCode('');
-            if(response.data.driverCode.language == 'java'){
-                setJavaCode(true);
-            }
-            if(response.data.driverCode.language == 'cpp'){
-                setCppCode(true);
-            }
-            router.push(`/Admin/editQuestion/${questionId}`)
+            router.push(`/Admin/editQuestion/${questionId}`);
         }
+
         alert(response.data.message);
     }
 
@@ -130,19 +124,19 @@ const Page = () => {
             <div className="flex flex-col lg:flex-row flex-grow justify-between">
                 <ProblemStatement
                     question={question}
-                    userOrDriver={"Driver Code"}
+                    userOrDriver={"Solution"}
                 />
                 <EditorComponent
                     selectedLanguage={selectedLanguage}
                     size={size}
-                    code={driverCode}
+                    code={solution}
                     handleLanguageChange={handleLanguageChange}
                     handleSizeChange={handleSizeChange}
-                    handleCodeChange={handleDriverCodeChange}
-                    handleAddCode={handleAddDriveCode}
+                    handleCodeChange={handleSolutionChange}
+                    handleAddCode={handleAddSolution}
                     javaCode={javaCode}
                     cppCode={cppCode}
-                    userOrDriver={"Driver Code"}
+                    userOrDriver={"Solution"}
                 />
             </div>
         </div>

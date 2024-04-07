@@ -20,6 +20,7 @@ const Page = () => {
     const [argArray, setArgArray] = useState<{ key: string; value: string }[]>([]);
     const [outputType, setOutputType] = useState('');
     const [verified, setVerified] = useState(false)
+    const [questionNum, setQuestionNum] = useState<Number>(0)
 
     useEffect(() => {
         const verify = async () => {
@@ -68,6 +69,10 @@ const Page = () => {
     };
 
     const handleAddProblem = async () => {
+        if(!questionNum){
+            alert("Enter questino number");
+            return;
+        }
         if (name === '') {
             alert('Enter the problem name');
             return;
@@ -113,6 +118,7 @@ const Page = () => {
         try {
             const response = await axios.post('/api/admin/addQuestion', {
                 token: localStorage.getItem("token"),
+                questionNum: questionNum,
                 name: name,
                 difficulty: difficulty,
                 description: description,
@@ -153,6 +159,10 @@ const Page = () => {
         setOutputType(event.target.value);
     }
 
+    const handleQuestionNumChange = (event: any) => {
+        setQuestionNum(event.target.value);
+    }
+
     return (
         <div className="min-h-screen bg-black text-white">
             <Header
@@ -169,6 +179,8 @@ const Page = () => {
                     name={name}
                     description={description}
                     difficulty={difficulty}
+                    handleQuestionNumChange={handleQuestionNumChange}
+                    questionNum={questionNum}
                 />
                 <AddTopic
                     handleTopicChange={handleTopicChange}

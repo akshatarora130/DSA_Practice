@@ -130,7 +130,7 @@ const Page = () => {
             <div className="flex flex-col lg:flex-row flex-grow justify-between">
                 <ProblemStatement
                     question={question}
-                    userOrDriver={"User"}
+                    userOrDriver={"User Code"}
                 />
                 <EditorComponent
                     selectedLanguage={selectedLanguage}
@@ -142,7 +142,7 @@ const Page = () => {
                     handleAddCode={handleAddUserCode}
                     javaCode={javaCode}
                     cppCode={cppCode}
-                    userOrDriver={"User"}
+                    userOrDriver={"User Code"}
                 />
             </div>
         </div>

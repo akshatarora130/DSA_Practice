@@ -1,17 +1,24 @@
 import React from 'react';
 
-const AddProblemStatement = ({handleNameChange, handleDescriptionChange, handleDifficultyChange, name, description, difficulty,}: any) => {
+const AddProblemStatement = ({ handleNameChange, handleDescriptionChange, handleDifficultyChange, name, description, difficulty, handleQuestionNumChange, questionNum }: any) => {
     return (
         <div className="w-full space-y-4">
             <div className="bg-gray-800 rounded-lg p-4 space-y-4">
                 <h2 className="text-lg font-semibold mb-2 text-white">Problem Statement</h2>
-                <div className="flex flex-col md:flex-row md:gap-8 w-full space-y-4">
+                <div className="flex flex-col md:flex-row md:gap-8 w-full space-y-4 md:space-y-0 items-start md:items-center">
+                    <input
+                        type="text"
+                        placeholder="Question Number"
+                        value={questionNum !== 0 ? questionNum : ''}
+                        onChange={handleQuestionNumChange}
+                        className="w-full md:w-1/5 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-gray-500 text-white bg-gray-700"
+                    />
                     <input
                         type="text"
                         placeholder="Problem Name"
                         value={name}
                         onChange={handleNameChange}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-600 focus:outline-none focus:border-gray-500 text-white bg-gray-700"
+                        className="w-full md:w-4/5 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-gray-500 text-white bg-gray-700"
                     />
                     <div className="flex items-center space-x-4">
                         <label className="text-white">Difficulty:</label>
